@@ -66,5 +66,18 @@ pipeline{
                 }
            }
         }
+        stage('Image to ECR'){
+            agent {label 'node3'}
+            steps{
+                withAWS(credentials:'jenkins-ecr',region:'eu-north-1')
+                {
+                    sh """
+                        aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 429219761476.dkr.ecr.eu-north-1.amazonaws.com
+                        docker tag ${IMAGE_NAME}:${VERSION} 429219761476.dkr.ecr.eu-north-1.amazonaws.com/calculator-java:${VERSION}
+                        docker push 429219761476.dkr.ecr.eu-north-1.amazonaws.com/calculator-java:${VERSION}
+                        """
+                }
+            }
+        }
     }
 }
