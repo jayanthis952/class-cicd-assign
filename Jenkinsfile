@@ -56,13 +56,10 @@ pipeline{
                 withCredentials([usernamePassword(credentialsId: 'nexus-cred',usernameVariable: 'NEXUS_USER',passwordVariable: 'NEXUS_PASS')])
                 {  
                     sh """
-                         whoami
-                         docker build \
-                         --build-arg NEXUS_URL=http://16.16.104.141:30003 \
-                         --build-arg NEXUS_USER=$NEXUS_USER \
-                         --build-arg NEXUS_PASS=$NEXUS_PASS \
-                         --build-arg VERSION=${VERSION} \
-                         -t ${IMAGE_NAME}:${VERSION} .
+                          whoami
+            id
+            ls -l /var/run/docker.sock
+            docker ps
                      """
                 }
            }
