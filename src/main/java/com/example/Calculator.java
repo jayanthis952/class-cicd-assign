@@ -4,6 +4,7 @@ public class Calculator {
 
     public static void main(String[] args) {
         System.out.println("Calculator app started");
+        Thread.sleep(Long.MAX_VALUE);
     }
 
     public int add(int a, int b) {
