@@ -16,7 +16,9 @@ pipeline{
         }
         stage("Docker build"){
             steps{
-                sh "docker build -t class-assign:1.0.0 ."
+                sh """ pwd 
+                docker build -t class-assign:1.0.0 .
+                """
             }
         }
     }
