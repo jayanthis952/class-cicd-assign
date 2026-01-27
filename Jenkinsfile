@@ -1,7 +1,7 @@
 pipeline{
     agent { label "node2" }
     environment{
-        number = $BUILD_NUMBER
+        number = $BUILD_ID
     }
     stages{
         stage("SCM"){
