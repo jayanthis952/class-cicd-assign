@@ -21,7 +21,7 @@ pipeline{
         stage("Docker build"){
             steps{
                 sh """  
-                docker build -t class-assign:1.0.0 .
+                docker build -t class-assign:${version} .
                 """
             }
         }
@@ -29,9 +29,9 @@ pipeline{
            steps{
             withAWS(credentials: 'jenkins-ecr', region: 'eu-north-1') {
 
-               sh """ docker tag class-assign:1.0.0 429219761476.dkr.ecr.eu-north-1.amazonaws.com/class-assign:1.0.0
+               sh """ docker tag class-assign:${version} 429219761476.dkr.ecr.eu-north-1.amazonaws.com/class-assign:${version}
                       aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 429219761476.dkr.ecr.eu-north-1.amazonaws.com
-                      docker push 429219761476.dkr.ecr.eu-north-1.amazonaws.com/class-assign:1.0.0 """
+                      docker push 429219761476.dkr.ecr.eu-north-1.amazonaws.com/class-assign:${version} """
            }
           }
        }
@@ -41,8 +41,8 @@ pipeline{
                sh """
                      echo "${version}"
                      ssh ubuntu@13.61.184.148 "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 429219761476.dkr.ecr.eu-north-1.amazonaws.com
-                      docker pull 429219761476.dkr.ecr.eu-north-1.amazonaws.com/class-assign:1.0.0
-                      docker run -it -d 429219761476.dkr.ecr.eu-north-1.amazonaws.com/class-assign:1.0.0" """
+                      docker pull 429219761476.dkr.ecr.eu-north-1.amazonaws.com/class-assign:${version}
+                      docker run -it -d 429219761476.dkr.ecr.eu-north-1.amazonaws.com/class-assign:${version}" """
                
            }
        }
